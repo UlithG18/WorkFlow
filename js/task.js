@@ -110,6 +110,9 @@ function createTaskElement(task, index) {
                         <button class="btn btn-sm btn-outline-primary change-status" data-index="${index}">
                             Change Status
                         </button>
+                        <button class="btn btn-sm btn-outline-warning edit-status" data-index="${index}">
+                            Edit
+                        </button>
                         <button class="btn btn-sm btn-outline-danger delete-task" data-index="${index}">
                             Delete
                         </button>
