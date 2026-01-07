@@ -9,10 +9,43 @@
 </head>
 
 <body>
+    <div class="container mt-5">
+        <header class="mb-4 text-center">
+            <h1>TaskFlow</h1>
+            <p>Task manager</p>
+        </header>
 
+        <!-- Task Creation Form -->
+        <section class="card mb-4">
+            <div class="card-body">
+                <h5>Create new task</h5>
+                <form id="form">
+                    <div class="mb-3">
+                        <label for="title" class="mb-2">Title</label>
+                        <input type="text" id="title" class="form-control" placeholder="Task title">
+                    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/main.js"></script>
+                    <div class="mb-3">
+                        <label for="description" class="mb-2">Description</label>
+                        <textarea id="description" class="form-control" placeholder="Task description"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="priority" class="mb-2">Priority</label>
+                        <select id="priority" class="form-select">
+                            <option selected disabled>Select priority</option>
+                            <option>High</option>
+                            <option>Medium</option>
+                            <option>Low</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-danger">Create task</button>
+                </form>
+            </div>
+        </section>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="js/main.js"></script>
 </body>
 
 </html>
