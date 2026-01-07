@@ -192,7 +192,7 @@ function handleFormSubmit(event) {
     createdAt: new Date().toISOString(),
   };
 
-  // Agregar al array de tareas
+  // Agregar al array
   tasks.unshift(newTask);
 
   // Limpiar formulario
@@ -244,7 +244,7 @@ function showAlert(message, type) {
   }, 3000);
 }
 
-//XSS
+// Función para escapar HTML (prevenir XSS)
 function escapeHTML(text) {
   const div = document.createElement("div");
   div.textContent = text;
