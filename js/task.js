@@ -24,8 +24,13 @@ document.addEventListener('DOMContentLoaded', function () {
     .getElementById('filter-status')
     .addEventListener('change', handleFilterChange);
   document
-    .getElementById('filter-priority')
-    .addEventListener('change', handleFilterChange);
+    .getElementById("filter-priority")
+    .addEventListener("change", handleFilterChange);
+
+  // Evento del botón limpiar filtros
+  document
+    .getElementById("clear-filters")
+    .addEventListener("click", clearAllFilters);
 
   // Evento del botón guardar del modal de edición
   document.getElementById('saveEdit').addEventListener('click', saveEditedTask);
@@ -63,8 +68,13 @@ function renderTasks() {
 
 // Crear elemento de tarea
 function createTaskElement(task, index) {
+<<<<<<< HEAD
   const col = document.createElement('div');
   col.className = 'col-md-6 col-lg-4';
+=======
+  const col = document.createElement("div");
+  col.className = "col-md-6 col-lg-4 task-card";
+>>>>>>> ba8246b (animaciones y filtros)
 
   // Determinar clase de color según prioridad
   let priorityClass = '';
@@ -207,10 +217,27 @@ function changeTaskStatus(index) {
 // Eliminar tarea
 function deleteTask(index) {
   if (tasks[index]) {
+<<<<<<< HEAD
     tasks.splice(index, 1);
     renderTasks();
 
     showAlert('Task deleted!', 'danger');
+=======
+    // Agregar animación de eliminación
+    const taskCards = document.querySelectorAll(".task-card");
+    if (taskCards[index]) {
+      taskCards[index].classList.add("removing");
+      setTimeout(() => {
+        tasks.splice(index, 1);
+        renderTasks();
+        showAlert("Task deleted!", "danger");
+      }, 400);
+    } else {
+      tasks.splice(index, 1);
+      renderTasks();
+      showAlert("Task deleted!", "danger");
+    }
+>>>>>>> ba8246b (animaciones y filtros)
   }
 }
 
@@ -262,7 +289,29 @@ function handleFilterChange(event) {
     currentFilter.priority = value;
   }
 
+  // Añadir animación
+  updateFilterIndicator();
   renderTasks();
+}
+
+// Actualizar indicador visual de filtros activos
+function updateFilterIndicator() {
+  const filtersContainer = document.getElementById("filters-container");
+  if (currentFilter.status || currentFilter.priority) {
+    filtersContainer.classList.add("filters-active");
+  } else {
+    filtersContainer.classList.remove("filters-active");
+  }
+}
+
+// Limpiar todos los filtros
+function clearAllFilters() {
+  currentFilter = { status: null, priority: null };
+  document.getElementById("filter-status").value = "All tasks";
+  document.getElementById("filter-priority").value = "All priorities";
+  document.getElementById("filters-container").classList.remove("filters-active");
+  renderTasks();
+  showAlert("Filters cleared!", "info");
 }
 
 // Mostrar alertas temporales
