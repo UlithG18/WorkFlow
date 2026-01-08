@@ -68,13 +68,8 @@ function renderTasks() {
 
 // Crear elemento de tarea
 function createTaskElement(task, index) {
-<<<<<<< HEAD
   const col = document.createElement('div');
-  col.className = 'col-md-6 col-lg-4';
-=======
-  const col = document.createElement("div");
-  col.className = "col-md-6 col-lg-4 task-card";
->>>>>>> ba8246b (animaciones y filtros)
+  col.className = 'col-md-6 col-lg-4 task-card';
 
   // Determinar clase de color según prioridad
   let priorityClass = '';
@@ -217,12 +212,6 @@ function changeTaskStatus(index) {
 // Eliminar tarea
 function deleteTask(index) {
   if (tasks[index]) {
-<<<<<<< HEAD
-    tasks.splice(index, 1);
-    renderTasks();
-
-    showAlert('Task deleted!', 'danger');
-=======
     // Agregar animación de eliminación
     const taskCards = document.querySelectorAll(".task-card");
     if (taskCards[index]) {
@@ -237,7 +226,6 @@ function deleteTask(index) {
       renderTasks();
       showAlert("Task deleted!", "danger");
     }
->>>>>>> ba8246b (animaciones y filtros)
   }
 }
 
