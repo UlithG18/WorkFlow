@@ -1,0 +1,282 @@
+      /* Animaciones y estilos para filtros - Diseño profesional */
+    .filters-section {
+        background: #ffffff;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        margin-bottom: 2rem;
+        animation: filterSlideIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        border-top: 3px solid #2c3e50;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .filters-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #3498db 0%, #2ecc71 100%);
+        animation: slideLineRight 0.9s ease-out 0.2s forwards;
+    }
+
+    @keyframes filterSlideIn {
+        from {
+        opacity: 0;
+        transform: translateY(-15px);
+        }
+        to {
+        opacity: 1;
+        transform: translateY(0);
+        }
+    }
+
+    @keyframes slideLineRight {
+        from {
+        width: 0;
+        }
+        to {
+        width: 100%;
+        }
+    }
+
+    .filter-row {
+        display: flex;
+        gap: 1.5rem;
+        align-items: flex-end;
+    }
+
+    .filter-group {
+        position: relative;
+        flex: 1;
+    }
+
+    .filter-label {
+        display: block;
+        color: #2c3e50;
+        font-weight: 600;
+        margin-bottom: 0.6rem;
+        font-size: 0.85rem;
+        letter-spacing: 0.8px;
+        text-transform: capitalize;
+    }
+
+    .filter-select {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        background-color: #fafafa;
+        color: #2c3e50;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        font-size: 0.95rem;
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232c3e50' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 0.8rem center;
+        background-size: 1.2em;
+        padding-right: 2.5rem;
+    }
+
+    .filter-select:hover {
+        border-color: #3498db;
+        background-color: #fff;
+        box-shadow: 0 4px 12px rgba(52, 152, 219, 0.12);
+    }
+
+    .filter-select:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        background-color: #fff;
+    }
+
+    .filter-select option {
+        padding: 0.6rem;
+        background-color: white;
+        color: #2c3e50;
+    }
+
+    .clear-filters-btn {
+        padding: 0.8rem 1.5rem;
+        background-color: transparent;
+        color: #2c3e50;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+        height: fit-content;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .clear-filters-btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(52, 152, 219, 0.1);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+
+    .clear-filters-btn:hover {
+        border-color: #3498db;
+        color: #3498db;
+        box-shadow: 0 4px 12px rgba(52, 152, 219, 0.15);
+    }
+
+    .clear-filters-btn:hover::before {
+        width: 300px;
+        height: 300px;
+    }
+
+    .clear-filters-btn:active {
+        transform: scale(0.98);
+    }
+
+      /* Indicador sutil de filtros activos */
+    @keyframes subtlePulse {
+        0%, 100% {
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+        50% {
+        box-shadow: 0 2px 16px rgba(52, 152, 219, 0.15);
+        }
+    }
+
+    .filters-active {
+        animation: subtlePulse 3s ease-in-out infinite;
+    }
+
+    @media (max-width: 768px) {
+        .filters-section {
+        padding: 1.5rem;
+        }
+
+        .filter-row {
+        flex-direction: column;
+        gap: 1.2rem;
+        }
+
+        .clear-filters-btn {
+        width: 100%;
+        }
+    }
+
+      /* Animaciones para tarjetas de tareas */
+    .task-card {
+        animation: taskFadeIn 0.5s ease-out forwards;
+        opacity: 0;
+    }
+
+    .task-card:nth-child(1) { animation-delay: 0.05s; }
+    .task-card:nth-child(2) { animation-delay: 0.1s; }
+    .task-card:nth-child(3) { animation-delay: 0.15s; }
+    .task-card:nth-child(4) { animation-delay: 0.2s; }
+    .task-card:nth-child(5) { animation-delay: 0.25s; }
+    .task-card:nth-child(n+6) { animation-delay: 0.3s; }
+
+    @keyframes taskFadeIn {
+        from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+        }
+        to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        }
+    }
+
+    .card {
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        position: relative;
+        overflow: hidden;
+        border: 1px solid #e0e0e0;
+        background: #ffffff;
+    }
+
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.6s ease;
+    }
+
+    .card:hover {
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+        transform: translateY(-6px);
+    }
+
+    .card:hover::before {
+        left: 100%;
+    }
+
+    .card-title {
+        color: #2c3e50;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+    }
+
+    .card-text {
+        color: #555;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    .btn-outline-primary, .btn-outline-warning, .btn-outline-danger {
+        transition: all 0.3s ease;
+        border-radius: 5px;
+    }
+
+    .btn-outline-primary:hover {
+        transform: translateX(2px);
+        box-shadow: 0 4px 12px rgba(52, 152, 219, 0.25);
+    }
+
+    .btn-outline-warning:hover {
+        transform: translateX(2px);
+        box-shadow: 0 4px 12px rgba(255, 193, 7, 0.25);
+    }
+
+    .btn-outline-danger:hover {
+        transform: translateX(2px);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.25);
+    }
+
+      /* Animación al eliminar tarea */
+    .card.removing {
+        animation: taskRemove 0.4s ease-in forwards;
+    }
+
+    @keyframes taskRemove {
+        from {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+        }
+        to {
+        opacity: 0;
+        transform: translateX(30px) scale(0.9);
+        }
+    }
+
+      /* Color dinámico para badges */
+    .badge {
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        padding: 0.4rem 0.8rem;
+    }
