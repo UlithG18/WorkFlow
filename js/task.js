@@ -3,9 +3,9 @@ let tasks = [];
 let currentFilter = { status: null, priority: null };
 
 // Inicialización
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('DOMContentLoaded', function () {
   // Cargar tareas desde localStorage si existen
-  const savedTasks = localStorage.getItem("tasks");
+  const savedTasks = localStorage.getItem('tasks');
   if (savedTasks) {
     tasks = JSON.parse(savedTasks);
     renderTasks();
@@ -13,25 +13,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Delegación de eventos en el contenedor de tareas
   document
-    .getElementById("tasks-list")
-    .addEventListener("click", handleTaskEvents);
+    .getElementById('tasks-list')
+    .addEventListener('click', handleTaskEvents);
 
   // Eventos del formulario
-  document.getElementById("form").addEventListener("submit", handleFormSubmit);
+  document.getElementById('form').addEventListener('submit', handleFormSubmit);
 
   // Eventos de los filtros
   document
-    .getElementById("filter-status")
-    .addEventListener("change", handleFilterChange);
+    .getElementById('filter-status')
+    .addEventListener('change', handleFilterChange);
   document
-    .getElementById("filter-priority")
-    .addEventListener("change", handleFilterChange);
+    .getElementById('filter-priority')
+    .addEventListener('change', handleFilterChange);
+
+  // Evento del botón guardar del modal de edición
+  document.getElementById('saveEdit').addEventListener('click', saveEditedTask);
 });
 
 // Mostrar tareas dinámicamente
 function renderTasks() {
-  const tasksList = document.getElementById("tasks-list");
-  tasksList.innerHTML = "";
+  const tasksList = document.getElementById('tasks-list');
+  tasksList.innerHTML = '';
 
   // Filtrar tareas según los filtros activos
   let filteredTasks = tasks;
@@ -55,39 +58,39 @@ function renderTasks() {
   });
 
   // Guardar en localStorage
-  localStorage.setItem("tasks", JSON.stringify(tasks));
+  localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
 // Crear elemento de tarea
 function createTaskElement(task, index) {
-  const col = document.createElement("div");
-  col.className = "col-md-6 col-lg-4";
+  const col = document.createElement('div');
+  col.className = 'col-md-6 col-lg-4';
 
   // Determinar clase de color según prioridad
-  let priorityClass = "";
+  let priorityClass = '';
   switch (task.priority) {
-    case "High":
-      priorityClass = "border-danger";
+    case 'High':
+      priorityClass = 'border-danger';
       break;
-    case "Medium":
-      priorityClass = "border-warning";
+    case 'Medium':
+      priorityClass = 'border-warning';
       break;
-    case "Low":
-      priorityClass = "border-success";
+    case 'Low':
+      priorityClass = 'border-success';
       break;
   }
 
   // Determinar clase según estado
-  let statusBadge = "";
+  let statusBadge = '';
   switch (task.status) {
-    case "completed":
-      statusBadge = "badge bg-success";
+    case 'completed':
+      statusBadge = 'badge bg-success';
       break;
-    case "in-progress":
-      statusBadge = "badge bg-warning";
+    case 'in-progress':
+      statusBadge = 'badge bg-warning';
       break;
     default:
-      statusBadge = "badge bg-secondary";
+      statusBadge = 'badge bg-secondary';
   }
 
   col.innerHTML = `
@@ -96,11 +99,11 @@ function createTaskElement(task, index) {
                 <div class="d-flex justify-content-between align-items-start mb-2">
                     <h5 class="card-title">${escapeHTML(task.title)}</h5>
                     <span class="${statusBadge}">${
-    task.status === "completed"
-      ? "Completed"
-      : task.status === "in-progress"
-      ? "In Progress"
-      : "Pending"
+    task.status === 'completed'
+      ? 'Completed'
+      : task.status === 'in-progress'
+      ? 'In Progress'
+      : 'Pending'
   }</span>
                 </div>
                 <p class="card-text">${escapeHTML(task.description)}</p>
@@ -128,21 +131,68 @@ function createTaskElement(task, index) {
 // Delegación de eventos para manejar interacciones con tareas
 function handleTaskEvents(event) {
   const target = event.target;
-  const taskIndex = target.getAttribute("data-index");
+  const taskIndex = target.getAttribute('data-index');
 
   if (!taskIndex) return;
 
-  if (target.classList.contains("delete-task")) {
+  if (target.classList.contains('delete-task')) {
     deleteTask(parseInt(taskIndex));
-  } else if (target.classList.contains("change-status")) {
+  } else if (target.classList.contains('change-status')) {
     changeTaskStatus(parseInt(taskIndex));
+  } else if (target.classList.contains('edit-status')) {
+    openEditModal(parseInt(taskIndex));
   }
+}
+
+// Abrir modal de edición y rellenar campos
+function openEditModal(index) {
+  const task = tasks[index];
+
+  document.getElementById('editTitle').value = task.title;
+  document.getElementById('editDescription').value = task.description;
+  document.getElementById('editPriority').value = task.priority;
+
+  // Guardar índice en el formulario
+  document.getElementById('editTaskForm').dataset.index = index;
+
+  // Mostrar modal
+  const modal = new bootstrap.Modal(document.getElementById('editTaskModal'));
+  modal.show();
+}
+
+// Guardar cambios del modal
+function saveEditedTask() {
+  const index = document.getElementById('editTaskForm').dataset.index;
+
+  const updatedTitle = document.getElementById('editTitle').value.trim();
+  const updatedDescription = document
+    .getElementById('editDescription')
+    .value.trim();
+  const updatedPriority = document.getElementById('editPriority').value;
+
+  if (!updatedTitle) {
+    showAlert('Title is required!', 'warning');
+    return;
+  }
+
+  tasks[index].title = updatedTitle;
+  tasks[index].description = updatedDescription;
+  tasks[index].priority = updatedPriority;
+
+  // Cerrar modal
+  const modal = bootstrap.Modal.getInstance(
+    document.getElementById('editTaskModal')
+  );
+  modal.hide();
+
+  renderTasks();
+  showAlert('Task updated successfully!', 'success');
 }
 
 // Cambiar estado de la tarea
 function changeTaskStatus(index) {
   if (tasks[index]) {
-    const statusOrder = ["pending", "in-progress", "completed"];
+    const statusOrder = ['pending', 'in-progress', 'completed'];
     const currentStatus = tasks[index].status;
     const currentIndex = statusOrder.indexOf(currentStatus);
     const nextIndex = (currentIndex + 1) % statusOrder.length;
@@ -150,8 +200,7 @@ function changeTaskStatus(index) {
     tasks[index].status = statusOrder[nextIndex];
     renderTasks();
 
-    // Feedback visual
-    showAlert("Task status updated!", "success");
+    showAlert('Task status updated!', 'success');
   }
 }
 
@@ -161,8 +210,7 @@ function deleteTask(index) {
     tasks.splice(index, 1);
     renderTasks();
 
-    // Feedback visual
-    showAlert("Task deleted!", "danger");
+    showAlert('Task deleted!', 'danger');
   }
 }
 
@@ -170,56 +218,47 @@ function deleteTask(index) {
 function handleFormSubmit(event) {
   event.preventDefault();
 
-  const title = document.getElementById("title").value.trim();
-  const description = document.getElementById("description").value.trim();
-  const priority = document.getElementById("priority").value;
+  const title = document.getElementById('title').value.trim();
+  const description = document.getElementById('description').value.trim();
+  const priority = document.getElementById('priority').value;
 
-  // Validación
   if (!title) {
-    showAlert("Title is required!", "warning");
+    showAlert('Title is required!', 'warning');
     return;
   }
 
   if (!priority) {
-    showAlert("Please select a priority!", "warning");
+    showAlert('Please select a priority!', 'warning');
     return;
   }
 
-  // Crear nueva tarea
   const newTask = {
     id: Date.now(),
     title: title,
     description: description,
     priority: priority,
-    status: "pending",
+    status: 'pending',
     createdAt: new Date().toISOString(),
   };
 
-  // Agregar al array de tareas
   tasks.unshift(newTask);
-
-  // Limpiar formulario
-  document.getElementById("form").reset();
-
-  // Renderizar tareas
+  document.getElementById('form').reset();
   renderTasks();
-
-  // Feedback visual
-  showAlert("Task created successfully!", "success");
+  showAlert('Task created successfully!', 'success');
 }
 
 // Manejar cambios en filtros
 function handleFilterChange(event) {
   const filterId = event.target.id;
   const value =
-    event.target.value === "All tasks" ||
-    event.target.value === "All priorities"
+    event.target.value === 'All tasks' ||
+    event.target.value === 'All priorities'
       ? null
       : event.target.value;
 
-  if (filterId === "filter-status") {
-    currentFilter.status = value ? value.toLowerCase().replace(" ", "-") : null;
-  } else if (filterId === "filter-priority") {
+  if (filterId === 'filter-status') {
+    currentFilter.status = value ? value.toLowerCase().replace(' ', '-') : null;
+  } else if (filterId === 'filter-priority') {
     currentFilter.priority = value;
   }
 
@@ -228,10 +267,10 @@ function handleFilterChange(event) {
 
 // Mostrar alertas temporales
 function showAlert(message, type) {
-  const alertDiv = document.createElement("div");
+  const alertDiv = document.createElement('div');
   alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
   alertDiv.style.cssText =
-    "top: 20px; right: 20px; z-index: 1050; min-width: 300px;";
+    'top: 20px; right: 20px; z-index: 1050; min-width: 300px;';
   alertDiv.innerHTML = `
         ${message}
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -239,7 +278,6 @@ function showAlert(message, type) {
 
   document.body.appendChild(alertDiv);
 
-  // Auto-remover después de 3 segundos
   setTimeout(() => {
     if (alertDiv.parentNode) {
       alertDiv.parentNode.removeChild(alertDiv);
@@ -249,7 +287,7 @@ function showAlert(message, type) {
 
 //XSS
 function escapeHTML(text) {
-  const div = document.createElement("div");
+  const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;
 }
