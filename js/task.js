@@ -62,6 +62,10 @@ function renderTasks() {
     tasksList.appendChild(taskElement);
   });
 
+  // Contador de tareas
+  const counter = document.getElementById('counter');
+  counter.textContent = tasks.length;
+
   // Guardar en localStorage
   localStorage.setItem('tasks', JSON.stringify(tasks));
 }
